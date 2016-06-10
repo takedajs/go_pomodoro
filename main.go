@@ -10,7 +10,7 @@ import (
 	"github.com/tlorens/go-ibgetkey"
 )
 
-var pom_time int //ポモドーロ合計回数を取得
+var pom_time int
 var token *string
 var room_name *string
 var user_name *string
@@ -53,19 +53,19 @@ loop:
 	}
 
 	fmt.Println("\nfinish")
-	hipchatSend(fmt.Sprintf("%dポモドーロ完了です。お疲れ様でした。", pom_time))
+	hipchatSend(fmt.Sprintf("%dポモドーロ完了です。お疲れ様でした。", pom_time), "red")
 }
 
 func pomTimerGoroutine(kill, finished chan bool) {
-	fmt.Println("\npomodoro running")
+	fmt.Print("\npomodoro running")
 
 	for i := 0; i < 4; i++ {
-		hipchatSend("25分作業 (気合を入れていきましょう。)")
-		//25分 1500
-		fmt.Println("\n\n【work】****************************")
-		for j := 0; j < 20; j++ {
-			if j%10 == 0 {
-				fmt.Printf("\n%dmin", j/10)
+		hipchatSend("25分作業 (気合を入れていきましょう。)", "gray")
+		fmt.Print("\n【25min work】****************************")
+		//25m = 1500s
+		for j := 0; j < 1500; j++ {
+			if j%60 == 0 {
+				fmt.Printf("\n%dmin", j/60)
 			} else {
 				fmt.Print(".")
 			}
@@ -77,12 +77,12 @@ func pomTimerGoroutine(kill, finished chan bool) {
 			}
 		}
 		pom_time++
-		hipchatSend("5分休憩 (歩きましょう。)")
-		fmt.Println("\n\n【rest】****************************")
-		//5分 300
-		for j := 0; j < 20; j++ {
-			if j%10 == 0 {
-				fmt.Printf("\n%dmin", j/10)
+		hipchatSend("5分休憩 (歩きましょう。)", "green")
+		fmt.Print("\n【5min rest】****************************")
+		//5m = 300s
+		for j := 0; j < 300; j++ {
+			if j%60 == 0 {
+				fmt.Printf("\n%dmin", j/60)
 			} else {
 				fmt.Print(".")
 			}
@@ -98,14 +98,14 @@ func pomTimerGoroutine(kill, finished chan bool) {
 	return
 }
 
-func hipchatSend(msg string) {
+func hipchatSend(msg string, bg_color string) {
 	c := hipchat.NewClient(*token)
 
 	req := hipchat.MessageRequest{
 		RoomId:        *room_name,
 		From:          "Pom",
 		Message:       "@" + *user_name + " " + msg,
-		Color:         hipchat.ColorGreen,
+		Color:         bg_color,
 		MessageFormat: hipchat.FormatText,
 		Notify:        true,
 	}
