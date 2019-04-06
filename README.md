@@ -1,7 +1,6 @@
-# go_pomodoro
 # hipchatと連携したポモドーロタイマー
 
-# 利用方法
+## 利用方法
 1 hipchatにポモドーロ専用のルームを作成します。  
 2 ターミナル上で以下のオプション付きのコマンドを叩きタイマーを実行します。  
 ```bash
@@ -11,3 +10,7 @@ go run main.go -t=【hipchatのAPI Auth Token】 -r=【作成したルーム名�
 4 タイマー起動中は、ターミナル上で指定のキーを入力するとポモドーロのリスタートと終了を行います。  
 - r: リスタート
 - f: 終了(スタートから終了までの達成したポモドーロの回数を通知します。)
+
+## デモ
+
+![デモ](https://engineers.weddingpark.co.jp/wp-content/uploads/2016/06/pomodoro.gif)
